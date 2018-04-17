@@ -1,8 +1,11 @@
 # kubernetes-monitoring
 ## Deploy Prometheus
 kubectl create namespace monitoring
+
 kubectl config set-context $(kubectl config current-context) --namespace=monitoring 
+
 kubectl apply -f prometheus.yaml 
+
 kubectl create -f ./prometheus-config-map.yaml
 
 ****Note: Change Private Registry to Public Image Location: /prom/prometheus/
