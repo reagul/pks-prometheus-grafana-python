@@ -1,6 +1,6 @@
 # kubernetes-monitoring
 
-eploy Prometheus
+Deploy Prometheus
 
 kubectl create namespace monitoring
 kubectl config set-context $(kubectl config current-context) --namespace=monitoring 
@@ -37,7 +37,7 @@ User Name: admin
 Pasword: <Output from Above>
    
  
- Select > Add data source
+Select > Add data source
  	Name: Prometheus
  	Type: Prometheus
  	URL: http://<prometheus-service EXTERNAL-IP>:8080
