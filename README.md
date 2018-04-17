@@ -13,7 +13,7 @@ kubectl create -f prometheus-service.yaml
 
 kubectl get svc |grep prometheus-service
 
-Open web browser to http://*prometheus-service EXTERNAL-IP*:8080
+**Open web browser to** http://*prometheus-service EXTERNAL-IP*:8080
 
 **Select > Status > Targets**
 Verify Data Collection
@@ -34,19 +34,19 @@ Record Secret Ex. NRXNs9WS0gK5oeRTU0NNWyNlc1xoOT49mEiO4aen
 kubectl create -f grafana-service.yaml
 kubectl get svc |grep grafana-service
 
-Open web browser to http:*grafana-service EXTERNAL-IP*:3000
+**Open web browser to** http:*grafana-service EXTERNAL-IP*:3000
 
-User Name: admin
+**User Name:** admin
 
-Pasword: <Output from Above>
+**Pasword:** <Output from Above>
 
 **Select > Add data source**
 
-Name: Prometheus
+**Name:** Prometheus
 
-Type: Prometheus
+**Type:** Prometheus
 
-URL: http://*prometheus-service EXTERNAL-IP*:8080
+**URL:** http://*prometheus-service EXTERNAL-IP*:8080
 
 **Select > Save and Test**
 
