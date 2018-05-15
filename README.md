@@ -50,7 +50,7 @@ kubectl get svc |grep grafana-service
 
 **Select > "+"** in left pane then **"Import"**
 
-If the app has Internet Access, enter ID **1621** then click outside of the field. 
+If the app has Internet Access, enter ID **1621** then click outside of the field; otherwise, import the .json file located in the repo.
 
 If no Internet Access, you can upload .json file. 
 
