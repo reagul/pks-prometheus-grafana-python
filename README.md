@@ -1,7 +1,7 @@
 # kubernetes-monitoring
 ## Deploy Prometheus
 kubectl create namespace monitoring\
-kubectl config set-context $(kubectl config current-context) --namespace=monitoring\ 
+kubectl config set-context $(kubectl config current-context) --namespace=monitoring\
 kubectl apply -f prometheus-rbac.yaml\
 kubectl create -f prometheus-config-map.yaml
 
