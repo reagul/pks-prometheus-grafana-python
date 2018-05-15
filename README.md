@@ -5,11 +5,11 @@ kubectl config set-context $(kubectl config current-context) --namespace=monitor
 kubectl apply -f prometheus-rbac.yaml\
 kubectl create -f prometheus-config-map.yaml
 
-****Note: Change Private Registry to Public Image Location: prom/prometheus
+****Note: Before running the next command, open prometheus-deployment.yaml with vi or another editor and change the image location from the private registry entry (harbor.lab.local/...) to the public image location: prom/prometheus
 
 kubectl create  -f prometheus-deployment.yaml\
 kubectl get deployments\
-kubectl create -f prometheus-service.yaml \
+kubectl create -f prometheus-service.yaml\
 kubectl get svc |grep prometheus-service 
 
 **Open web browser to** http://*prometheus-service EXTERNAL-IP*:8080\
