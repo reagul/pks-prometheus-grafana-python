@@ -52,11 +52,11 @@ Record Secret Ex. NRXNs9WS0gK5oeRTU0NNWyNlc1xoOT49mEiO4aen
 `$ kubectl get svc |grep grafana-service`
 
 #### Open a web browser, navigate to the grafana web UI, and login
-http:*grafana-service EXTERNAL-IP*:3000
+http://*GRAFANA_SERVICE_EXTERNAL-IP*:3000
 
-**User Name:** admin
+*User Name:* admin
 
-**Pasword:** <Output from Above>
+*Pasword:* <Output from Above>
 
 #### Configure the prometheus plug-in 
 Select > *Add data source*
@@ -65,7 +65,7 @@ Name: *Prometheus*
 
 Type: *Prometheus*
 
-URL: http://*PROMETHEUS_SERVICE_EXTERNAL-IP*:9090\
+URL: http://*PROMETHEUS_SERVICE_EXTERNAL-IP*:9090 
 
 Select > *Save and Test*
 
