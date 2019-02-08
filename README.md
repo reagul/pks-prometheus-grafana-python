@@ -5,7 +5,7 @@ kubectl config set-context $(kubectl config current-context) --namespace=monitor
 kubectl apply -f prometheus-rbac.yaml\
 kubectl create -f prometheus-config-map.yaml
 
-****Note: Before running the next command, open prometheus-deployment.yaml with vi or another editor and change the image location from the private registry entry (harbor.lab.local/...) to the public image location: prom/prometheus
+****Note: Before running the next command, open prometheus-deployment.yaml with vi or another editor and update image location; the default is the public image location: grafana/grafanaprom/prometheus
 
 kubectl create  -f prometheus-deployment.yaml\
 kubectl get deployments\
@@ -23,6 +23,11 @@ chmod 700 get_helm.sh\
 ./get_helm.sh\
 kubectl apply -f tiller-rbac.yaml\
 helm init --service-account tiller\
+
+****Note: Before running the next command, open grafana/values.yaml with vi or another editor and
+Update image location and tag; the default is the public image location: grafana/grafana
+Update ingress.hosts to the appropriate FQDN for the hostname and ingress controller wildcard record suffix
+
 helm install --name grafana-app --namespace monitoring stable/grafana\
 helm ls\
 kubectl get secret --namespace monitoring grafana-app -o jsonpath="{.data.admin-password}" | base64 --decode ; echo\
