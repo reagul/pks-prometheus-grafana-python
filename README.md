@@ -12,7 +12,7 @@ kubectl get deployments\
 kubectl create -f prometheus-service.yaml\
 kubectl get svc |grep prometheus-service 
 
-**Open web browser to** http://*prometheus-service EXTERNAL-IP*:8080\
+**Open web browser to** http://*prometheus-service EXTERNAL-IP*:9090\
 **Select > Status > Targets**\
 Verify Data Collection
 
@@ -49,7 +49,7 @@ kubectl get svc |grep grafana-service
 
 **Type:** Prometheus
 
-**URL:** http://*prometheus-service EXTERNAL-IP*:8080
+**URL:** http://*prometheus-service EXTERNAL-IP*:9090
 
 **Select > Save and Test**
 
