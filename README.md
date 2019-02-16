@@ -1,31 +1,7 @@
 # kubernetes-monitoring
+
 ## Deploy Prometheus
 
-#### Create a namespace 
-`$ kubectl create namespace monitoring`\
-#### Switch position to namespace monitoring
-`$ kubectl config set-context $(kubectl config current-context) --namespace=monitoring`\
-#### Apply the prometheus RBAC policy spec\
-`$ kubectl apply -f prometheus-rbac.yaml`\
-#### Apply the prometheus config-map spec\
-`$ kubectl create -f prometheus-config-map.yaml`
-
-****Note: Before running the next command, open prometheus-deployment.yaml with vi or another editor and update image location; the default is the public image location: `prom/prometheus`
-
-#### Apply the prometheus deployment spec\
-`$ kubectl create  -f prometheus-deployment.yaml`\
-#### List the deployment summary\
-`$ kubectl get deployments`\
-#### Apply the promethues service spec\
-`$ kubectl create -f prometheus-service.yaml`\
-#### Collect the *EXTERNAL-IP* for the prometheus service\
-`$ kubectl get svc |grep prometheus-service `
-
-**Open a web browser and enter the path** http://*PROMETHEUS_SERVICE_EXTERNAL-IP*:9090\
-**Select > Status > Targets**\
-Verify Data Collection
-
-## Deploy Grafana
 #### Install helm client 
 Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 `$ curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh`\
@@ -36,48 +12,87 @@ Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 #### Initilize tiller on the Kubernetes cluster
 `$ helm init --service-account tiller`
 
-****Note: Before running the next command, open grafana/values.yaml with vi or another editor and update image location and tag; the default is the public image location: `grafana/grafana`
+#### Create a storage class for dynamic persistant volume provisioning
+`$ kubectl apply -f k8s-monitoring-sc.yaml`
 
-#### Install the graface Helm chart
-`$ helm install --name grafana-app --namespace monitoring stable/grafana`\
-#### View the installed charts
-`$ helm ls`\
-#### Collect and record the secret
-`$ kubectl get secret --namespace monitoring grafana-app -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`\
-Record Password\
-Record Secret Ex. NRXNs9WS0gK5oeRTU0NNWyNlc1xoOT49mEiO4aen
-#### Create the grafana service
-`$ kubectl create -f grafana-service.yaml`
-#### Collect the *EXTERNAL-IP* for the grafana service
-`$ kubectl get svc |grep grafana-service`
+#### Create a namespace 
+`$ kubectl create namespace k8s-monitoring`\
+#### Switch position to namespace monitoring
+`$ kubectl config set-context $(kubectl config current-context) --namespace=k8s-monitoring`\
+
+****Note: If pulling images from a private registry, open prometheus/values.yaml with vi or another editor and update image locations; the default images locations are:
+
+`prom/pushgateway:v0.6.0` \
+`prom/alertmanager:v0.15.3` \
+`jimmidyson/configmap-reload:tag:v0.2.2` \
+`busybox:latest` \
+`quay.io/coreos/kube-state-metrics:v1.5.0` \
+`prom/node-exporter:v0.17.0` \
+`prom/prometheus:v2.7.1` \
+`prom/pushgateway:v0.6.0` \
+
+If the registy requires auth, set
+`imagePullSecrets:` \
+`name: "image-pull-secret" `
+
+#### Install the prometheus helm chart
+`helm install --name=prometheus ./prometheus`
+
+#### Identify the prometheus-server EXTERNAL-IP
+`$ kubectl get svc |grep prometheus-server`
+
+#### Open a web browser to the Prometheus web UI
+http://*PROMETHEUS_SERVICE_EXTERNAL-IP*
+
+Select > **Status** > **Targets**\
+Review the status Data Collection services. If not all service immediately report "UP", refresh the page a few times. 
+
+## Deploy Grafana
+
+****Note: Before running the next command, open grafana/values.yaml with vi or another editor and update image location and tag; the default images locations are:
+
+`grafana/grafana:tag: 5.4.3`\
+`appropriate/curl:latest`\
+`busybox:1.30.0`
+
+#### Install the Grafana Helm chart
+`helm install --name=grafana ./grafana`
+
+#### Verify all pods transition to "Running"
+`$ kubectl get pods`
+
+#### Collect and record the Admin secret
+`$ kubectl get secret --namespace k8s-monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`\
+
+Record the Secret Ex. NRXNs9WS0gK5oeRTU0NNWyNlc1xoOT49mEiO4aen
+
+#### Identify the grafana service EXTERNAL-IP
+`$ kubectl get svc |grep grafana`
 
 #### Open a web browser, navigate to the grafana web UI, and login
-http://*GRAFANA_SERVICE_EXTERNAL-IP*:3000
+http://*GRAFANA_SERVICE_EXTERNAL-IP*
 
-*User Name:* admin
+**User Name:** admin
 
-*Pasword:* <Output from Above>
+**Pasword:** *SECRET*
 
 #### Configure the prometheus plug-in 
 Select > *Add data source*
+Select > Prometheus
 
-Name: *Prometheus*
+**Name:** *Prometheus*
 
-Type: *Prometheus*
+**URL:** http://*PROMETHEUS_SERVICE_EXTERNAL-IP*
 
-URL: http://*PROMETHEUS_SERVICE_EXTERNAL-IP*:9090 
-
-Select > *Save and Test*
+Select > **Save and Test**
 
 #### Import the Kubernetes Dashboard
 
-Select > *"+"* in left pane then *"Import"*
+Select > **"+"** in left pane then **"Import"**
 
-If the app has Internet Access, enter ID **1621** then click outside of the field; otherwise, import the .json file located in the repo.
+If the app has Internet Access, enter ID **6417** then click outside of the field; otherwise, upload the .json file located in the repo.
 
-If no Internet Access, you can upload .json file. 
-
-In the Options table, select the Prometheus drop-down and select Prometheus 
+In the Options table, select the *Prometheus* drop-down and select **Prometheus** 
 Select > *Import* 
 
 You will redirect to the new dashboard. 
