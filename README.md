@@ -6,9 +6,9 @@
 Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 `$ curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh`\
 `$ chmod 700 get_helm.sh`\
-`$ ./get_helm.sh`\
+`$ ./get_helm.sh`
 #### Apply the tiller RBAC policy 
-`$ kubectl apply -f tiller-rbac.yaml`\
+`$ kubectl apply -f tiller-rbac.yaml`
 #### Initilize tiller on the Kubernetes cluster
 `$ helm init --service-account tiller`
 
@@ -18,7 +18,7 @@ Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 #### Create a namespace 
 `$ kubectl create namespace k8s-monitoring`\
 #### Switch position to namespace monitoring
-`$ kubectl config set-context $(kubectl config current-context) --namespace=k8s-monitoring`\
+`$ kubectl config set-context $(kubectl config current-context) --namespace=k8s-monitoring`
 
 ****Note: If pulling images from a private registry, open prometheus/values.yaml with vi or another editor and update image locations; the default images locations are:
 
