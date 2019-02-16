@@ -16,7 +16,7 @@ Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 `$ kubectl apply -f k8s-monitoring-sc.yaml`
 
 #### Create a namespace 
-`$ kubectl create namespace k8s-monitoring`\
+`$ kubectl create namespace k8s-monitoring`
 #### Switch position to namespace monitoring
 `$ kubectl config set-context $(kubectl config current-context) --namespace=k8s-monitoring`
 
