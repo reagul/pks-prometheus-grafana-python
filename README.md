@@ -29,7 +29,7 @@ Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 `quay.io/coreos/kube-state-metrics:v1.5.0` \
 `prom/node-exporter:v0.17.0` \
 `prom/prometheus:v2.7.1` \
-`prom/pushgateway:v0.6.0` \
+`prom/pushgateway:v0.6.0` 
 
 If the registy requires auth, set
 `imagePullSecrets:` \
