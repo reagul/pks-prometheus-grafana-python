@@ -12,13 +12,13 @@
 
 ****Note: Before running the next command, open prometheus-deployment.yaml with vi or another editor and update image location; the default is the public image location: `prom/prometheus`
 
-#### Apply the prometheus deployment spec\
-`$ kubectl create  -f prometheus-deployment.yaml`\
-#### List the deployment summary\
-`$ kubectl get deployments`\
-#### Apply the promethues service spec\
-`$ kubectl create -f prometheus-service.yaml`\
-#### Collect the *EXTERNAL-IP* for the prometheus service\
+#### Apply the prometheus deployment spec
+`$ kubectl create  -f prometheus-deployment.yaml`
+#### List the deployment summary
+`$ kubectl get deployments`
+#### Apply the promethues service spec
+`$ kubectl create -f prometheus-service.yaml`
+#### Collect the *EXTERNAL-IP* for the prometheus service
 `$ kubectl get svc |grep prometheus-service `
 
 **Open a web browser and enter the path** http://*PROMETHEUS_SERVICE_EXTERNAL-IP*:9090\
@@ -32,7 +32,7 @@ Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 `$ chmod 700 get_helm.sh`\
 `$ ./get_helm.sh`\
 #### Apply the tiller RBAC policy 
-`$ kubectl apply -f tiller-rbac.yaml`\
+`$ kubectl apply -f tiller-rbac.yaml`
 #### Initilize tiller on the Kubernetes cluster
 `$ helm init --service-account tiller`
 
