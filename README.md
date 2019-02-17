@@ -2,12 +2,12 @@
 ## Deploy Prometheus
 
 #### Create a namespace 
-`$ kubectl create namespace monitoring`\
+`$ kubectl create namespace monitoring`
 #### Switch position to namespace monitoring
-`$ kubectl config set-context $(kubectl config current-context) --namespace=monitoring`\
-#### Apply the prometheus RBAC policy spec\
-`$ kubectl apply -f prometheus-rbac.yaml`\
-#### Apply the prometheus config-map spec\
+`$ kubectl config set-context $(kubectl config current-context) --namespace=monitoring`
+#### Apply the prometheus RBAC policy spec
+`$ kubectl apply -f prometheus-rbac.yaml`
+#### Apply the prometheus config-map spec
 `$ kubectl create -f prometheus-config-map.yaml`
 
 ****Note: Before running the next command, open prometheus-deployment.yaml with vi or another editor and update image location; the default is the public image location: `prom/prometheus`
