@@ -12,12 +12,9 @@
 
 ****Note: Before running the next command, open prometheus-deployment.yaml with vi or another editor and update image location; the default is the public image location: `prom/prometheus`
 
-#### Apply the prometheus deployment spec
-`$ kubectl apply  -f prometheus-deployment.yaml`
-#### List the deployment summary
-`$ kubectl get deployments`
-#### Collect the *EXTERNAL-IP* for the prometheus service
-`$ kubectl get svc |grep prometheus-service `
+#### Deploy the Prometheus application spec and verify all pods transitioning to “Running
+`$ kubectl apply  -f prometheus-deployment.yaml`\
+`$ kubectl get pods`
 
 ## Deploy Grafana
 #### Install helm client 
@@ -33,19 +30,16 @@ Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 ****Note: Before running the next command, open grafana/values.yaml with vi or another editor and update image location and tag; the default is the public image location: `grafana/grafana`
 
 #### Install the grafana Helm chart
-`$ helm install --name grafana-app --namespace monitoring stable/grafana`
-#### View the installed charts
-`$ helm ls`\
+`$ helm install --name grafana ./grafana`
+
 #### Collect and record the secret
-`$ kubectl get secret --namespace monitoring grafana-app -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`\
-Record Password\
-Record Secret Ex. NRXNs9WS0gK5oeRTU0NNWyNlc1xoOT49mEiO4aen
+`$ kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`\
 
 #### Collect the *EXTERNAL-IP* for the grafana service
-`$ kubectl get svc |grep grafana-service`
+`$ kubectl get svc |grep grafana`
 
 #### Open a web browser, navigate to the grafana web UI, and login
-http://*GRAFANA_SERVICE_EXTERNAL-IP*:3000
+http://GRAFANA_SERVICE_EXTERNAL-IP
 
 *User Name:* admin
 
@@ -58,7 +52,7 @@ Name: *Prometheus*
 
 Type: *Prometheus*
 
-URL: http://*PROMETHEUS_SERVICE_EXTERNAL-IP*:9090 
+URL: hhttp://prometheus.monitoring.svc.cluster.local:9090
 
 Select > *Save and Test*
 
@@ -68,7 +62,7 @@ Select > *"+"* in left pane then *"Import"*
 
 If the app has Internet Access, enter ID **1621** then click outside of the field; otherwise, import the .json file located in the repo.
 
-If no Internet Access, you can upload .json file. 
+If no Internet Access, you can upload the .json file. 
 
 In the Options table, select the Prometheus drop-down and select Prometheus 
 Select > *Import* 
