@@ -8,22 +8,16 @@
 #### Apply the prometheus RBAC policy spec
 `$ kubectl apply -f prometheus-rbac.yaml`
 #### Apply the prometheus config-map spec
-`$ kubectl create -f prometheus-config-map.yaml`
+`$ kubectl apply -f prometheus-config-map.yaml`
 
 ****Note: Before running the next command, open prometheus-deployment.yaml with vi or another editor and update image location; the default is the public image location: `prom/prometheus`
 
 #### Apply the prometheus deployment spec
-`$ kubectl create  -f prometheus-deployment.yaml`
+`$ kubectl apply  -f prometheus-deployment.yaml`
 #### List the deployment summary
 `$ kubectl get deployments`
-#### Apply the promethues service spec
-`$ kubectl create -f prometheus-service.yaml`
 #### Collect the *EXTERNAL-IP* for the prometheus service
 `$ kubectl get svc |grep prometheus-service `
-
-**Open a web browser and enter the path** http://*PROMETHEUS_SERVICE_EXTERNAL-IP*:9090\
-**Select > Status > Targets**\
-Verify Data Collection
 
 ## Deploy Grafana
 #### Install helm client 
@@ -38,8 +32,8 @@ Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 
 ****Note: Before running the next command, open grafana/values.yaml with vi or another editor and update image location and tag; the default is the public image location: `grafana/grafana`
 
-#### Install the graface Helm chart
-`$ helm install --name grafana-app --namespace monitoring stable/grafana`\
+#### Install the grafana Helm chart
+`$ helm install --name grafana-app --namespace monitoring stable/grafana`
 #### View the installed charts
 `$ helm ls`\
 #### Collect and record the secret
