@@ -22,14 +22,12 @@ Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 
 ****Note: If pulling images from a private registry, open prometheus/values.yaml with vi or another editor and update image locations; the default images locations are:
 
-`prom/pushgateway:v0.6.0` \
 `prom/alertmanager:v0.15.3` \
 `jimmidyson/configmap-reload:tag:v0.2.2` \
 `busybox:latest` \
 `quay.io/coreos/kube-state-metrics:v1.5.0` \
 `prom/node-exporter:v0.17.0` \
 `prom/prometheus:v2.7.1` \
-`prom/pushgateway:v0.6.0` 
 
 If the registy requires auth, set
 `imagePullSecrets:` \
@@ -37,6 +35,8 @@ If the registy requires auth, set
 
 #### Install the prometheus helm chart
 `helm install --name=prometheus ./prometheus`
+
+Note the internal DNS reference to: prometheus-server.k8s-monitoring.svc.cluster.local
 
 #### Identify the prometheus-server EXTERNAL-IP
 `$ kubectl get svc |grep prometheus-server`
@@ -62,7 +62,7 @@ Review the status Data Collection services. If not all service immediately repor
 `$ kubectl get pods`
 
 #### Collect and record the Admin secret
-`$ kubectl get secret --namespace k8s-monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`\
+`$ kubectl get secret --namespace k8s-monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`
 
 Record the Secret Ex. NRXNs9WS0gK5oeRTU0NNWyNlc1xoOT49mEiO4aen
 
@@ -77,12 +77,12 @@ http://*GRAFANA_SERVICE_EXTERNAL-IP*
 **Pasword:** *SECRET*
 
 #### Configure the prometheus plug-in 
-Select > *Add data source*
-Select > Prometheus
+Select > **Add data source** \
+Select > **Prometheus** 
 
 **Name:** *Prometheus*
 
-**URL:** http://*PROMETHEUS_SERVICE_EXTERNAL-IP*
+**URL:** http://prometheus-server.k8s-monitoring.svc.cluster.local
 
 Select > **Save and Test**
 
