@@ -40,8 +40,7 @@ Go to: https://docs.helm.sh/using_helm/#installing-helm or \
 `$ kubectl get secret --namespace monitoring grafana-app -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`\
 Record Password\
 Record Secret Ex. NRXNs9WS0gK5oeRTU0NNWyNlc1xoOT49mEiO4aen
-#### Create the grafana service
-`$ kubectl create -f grafana-service.yaml`
+
 #### Collect the *EXTERNAL-IP* for the grafana service
 `$ kubectl get svc |grep grafana-service`
 
